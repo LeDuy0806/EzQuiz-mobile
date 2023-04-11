@@ -13,6 +13,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+import { register } from 'src/actions/auth';
 
 import Button from 'src/components/auth/Button';
 import Header from 'src/components/auth/Header';
@@ -25,16 +27,25 @@ const InitRegister = {
     userName: '',
     email: '',
     password: '',
+    fullName: '',
     confirmPassword: '',
 };
 export default function Register({ navigation }) {
     const [formData, seFormData] = useState(InitRegister);
+    const dispatch = useDispatch();
 
     const handleChange = (e, name) => {
-        seFormData({ ...formData, [name]: e.nativeEvent.text });
+        seFormData({
+            ...formData,
+            [name]: e.nativeEvent.text,
+            fullName: formData.firstName + formData.lastName,
+        });
     };
 
-    console.log(formData);
+    const handleRegister = () => {
+        console.log();
+        dispatch(register(formData, navigation));
+    };
 
     return (
         <SafeAreaView style={styles.safeAreaView}>
@@ -178,6 +189,7 @@ export default function Register({ navigation }) {
 
                             <Button
                                 title={'Register'}
+                                onPress={handleRegister}
                                 navigation={navigation}
                             />
                         </View>

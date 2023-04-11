@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     SafeAreaView,
     StyleSheet,
@@ -7,6 +7,8 @@ import {
     Text,
     TextInput,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { generateOTP } from 'src/actions/auth';
 
 import Button from 'src/components/auth/Button';
 import Header from 'src/components/auth/Header';
@@ -15,6 +17,13 @@ import FormTextInput from 'src/components/auth/Input';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function Reset({ navigation }) {
+    const [email, setEmail] = useState('');
+    const dispatch = useDispatch();
+
+    const handleReset = () => {
+        dispatch(generateOTP(email, navigation));
+    };
+
     return (
         <SafeAreaView style={styles.safeAreaView}>
             <View style={styles.viewContainer}>
@@ -41,11 +50,14 @@ export default function Reset({ navigation }) {
                             color="#865DFF"
                         />
                     }
+                    value={email}
+                    handleChange={(e) => setEmail(e.nativeEvent.text)}
                 />
 
                 <Button
                     title="Reset Password"
-                    direct={'Newpass'}
+                    // direct={'Newpass'}
+                    onPress={handleReset}
                     navigation={navigation}
                 />
             </View>

@@ -9,8 +9,12 @@ import {
     StyleSheet,
     ScrollView,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { ActivityIndicator } from 'react-native';
+import { SignIn } from 'src/actions/auth';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import google from 'src/assets/images/google.png';
@@ -24,13 +28,27 @@ import FormTextInput from 'src/components/auth/Input';
 const InitLogin = { userName: '', password: '' };
 
 export default function Login({ navigation }) {
-    const [formData, seFormData] = useState(InitLogin);
+    const [loadDing, SetLoaDing] = useState(false);
+    const [formData, setFormData] = useState(InitLogin);
+    const dispatch = useDispatch();
 
     const handleChange = (e, name) => {
-        seFormData({ ...formData, [name]: e.nativeEvent.text });
+        setFormData({ ...formData, [name]: e.nativeEvent.text });
     };
 
-    return (
+    const handleLoading = (value) => {
+        SetLoaDing(value);
+    };
+
+    // const handleLogin = () => {
+    //     dispatch(SignIn(formData, navigation, handleLoading));
+    // };
+
+    return loadDing ? (
+        <View style={styles.viewLoading}>
+            <ActivityIndicator size="large" color="#865DFF" />
+        </View>
+    ) : (
         <SafeAreaView style={styles.safeAreaView}>
             <ScrollView
                 style={{ width: '90%' }}
@@ -44,11 +62,11 @@ export default function Login({ navigation }) {
                     />
                     <View style={styles.formSignUp}>
                         <FormTextInput
-                            lable="Email Address"
-                            place="Your email address"
+                            lable="UserName"
+                            place="User Name"
                             icon={
-                                <MaterialCommunityIcons
-                                    name="email-outline"
+                                <Feather
+                                    name="user"
                                     size={24}
                                     color="#865DFF"
                                 />
@@ -74,7 +92,10 @@ export default function Login({ navigation }) {
                             <Button
                                 title="Login"
                                 navigation={navigation}
-                                direct="AppNavigator"
+                                // onPress={handleLogin}
+                                onPress={() =>
+                                    navigation.navigate('AppNavigator')
+                                }
                             />
 
                             <View style={styles.viewForgot}>
@@ -147,6 +168,13 @@ export default function Login({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+    viewLoading: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
     safeAreaView: {
         backgroundColor: '#E3DFFD',
         display: 'flex',
