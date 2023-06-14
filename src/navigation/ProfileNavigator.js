@@ -41,7 +41,7 @@ const ProfileNavigator = () => {
                                 <Text
                                     style={{
                                         ...styles.text,
-                                        color: focused ? 'white' : 'gray',
+                                        color: focused ? '#333' : 'gray',
                                     }}
                                 >
                                     Quizez
@@ -97,7 +97,7 @@ const ProfileNavigator = () => {
                                 <Text
                                     style={{
                                         ...styles.text,
-                                        color: focused ? 'white' : 'gray',
+                                        color: focused ? '#333' : 'gray',
                                     }}
                                 >
                                     About
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
         height: '100%',
         borderRadius: 16,
         borderColor: colors.second,
-        borderWidth: 2,
+        // borderWidth: 2,
         justifyContent: 'center',
     },
     text: {

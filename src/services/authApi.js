@@ -51,6 +51,22 @@ export const apiAuth = createApi({
                 body: { mail, password, confirm },
             }),
         }),
+
+        changeMail: builder.mutation({
+            query: ({ mail, userName }) => ({
+                url: 'api/auth/changeEmail',
+                method: 'PUT',
+                body: { mail, userName },
+            }),
+        }),
+
+        verifyOTPResetEmail: builder.mutation({
+            query: ({ emailPrev, newEmail, code }) => ({
+                url: 'api/auth/resetEmail',
+                method: 'PUT',
+                body: { emailPrev, newEmail, code },
+            }),
+        }),
     }),
 });
 
@@ -61,4 +77,6 @@ export const {
     useRegisterMailOtpQuery,
     useVerifyOtpMutation,
     useResetPassMutation,
+    useChangeMailMutation,
+    useVerifyOTPResetEmailMutation,
 } = apiAuth;

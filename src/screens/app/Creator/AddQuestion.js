@@ -159,6 +159,7 @@ const AddQuestion = ({ navigation, ...props }) => {
                     contentContainerStyle={styles.pagination}
                     horizontal={true}
                     pagingEnabled={true}
+                    showsHorizontalScrollIndicator={false}
                 >
                     {questionList &&
                         questionList.map((question) => (

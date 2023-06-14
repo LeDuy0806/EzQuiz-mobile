@@ -12,7 +12,7 @@ const Badge = ({ badge }) => (
     </View>
 );
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, index }) => {
     // Function check URL của hình ảnh có hợp lệ hay ko
     const checkImageURL = (url) => {
         if (!url) return false;
@@ -26,12 +26,12 @@ const UserCard = ({ user }) => {
     };
 
     const displayBadge = () => {
-        switch (user.rank) {
-            case 1:
+        switch (index) {
+            case 0:
                 return <Badge badge={images.goldBadge} />;
-            case 2:
+            case 1:
                 return <Badge badge={images.silverBadge} />;
-            case 3:
+            case 2:
                 return <Badge badge={images.bronzeBadge} />;
             default:
                 break;
@@ -48,7 +48,7 @@ const UserCard = ({ user }) => {
             onPress={handleShowInformation}
         >
             <View style={styles.rankContainer}>
-                <Text style={styles.rank}>{user.rank}</Text>
+                <Text style={styles.rank}>{index + 1}</Text>
             </View>
 
             <View style={styles.avatarContainer}>
@@ -56,8 +56,8 @@ const UserCard = ({ user }) => {
                     resizeMode="contain"
                     style={styles.avatar}
                     source={
-                        checkImageURL(user.avatarUrl)
-                            ? { uri: user.avatarUrl }
+                        checkImageURL(user.avatar)
+                            ? { uri: user.avatar }
                             : images.defaultAvatar
                     }
                 />
@@ -65,14 +65,14 @@ const UserCard = ({ user }) => {
 
             <View style={styles.textContainer}>
                 <Text style={styles.name} numberOfLines={1}>
-                    {user.name}
+                    {user.userName}
                 </Text>
                 <Text style={styles.score} numberOfLines={1}>
-                    {user.score} points
+                    {user.point} points
                 </Text>
             </View>
 
-            {user.rank > 3 ? null : displayBadge()}
+            {index < 3 && displayBadge()}
         </TouchableOpacity>
     );
 };

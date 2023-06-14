@@ -20,6 +20,7 @@ const CategoryCard = ({
     showQuiz,
     creator,
     quizBest,
+    noPress,
 }) => {
     const dispatch = useDispatch();
     const [quality, setQuality] = useState();
@@ -49,6 +50,7 @@ const CategoryCard = ({
                     : bgColors.lightPurple,
                 width: width,
             }}
+            activeOpacity={noPress ? 1 : 0}
             onPress={() => {
                 if (showQuiz) {
                     showQuiz(quizCate);

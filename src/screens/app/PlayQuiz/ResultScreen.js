@@ -18,6 +18,9 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { useState } from 'react';
 
+import { useDispatch } from 'react-redux';
+import { upDated } from 'src/slices/authSlice';
+
 const screenWidth = Dimensions.get('window').width;
 
 const chartConfig = {
@@ -49,6 +52,7 @@ export default function ResultScreen({
     handleSeenLeaderBoard,
     handleOpenLeaderScreen,
 }) {
+    const dispatch = useDispatch();
     const {
         correctAnswer,
         incorrectAnswer,
@@ -62,37 +66,57 @@ export default function ResultScreen({
 
     useEffect(() => {
         if (data) {
-            console.log(
-                data.currentLeaderboard[data.currentLeaderboard.length - 1],
-            );
+            const arangeLeader =
+                data.currentLeaderboard[data.currentLeaderboard.length - 1];
+            // const arangeLeader = data.currentLeaderboard[
+            //     data.currentLeaderboard.length - 1
+            // ].sort(function (a, b) {
+            //     return b.point - a.point;
+            // });
+            if (arangeLeader.length > 1) {
+                arangeLeader.sort(function (a, b) {
+                    return b.point - a.point;
+                });
+            }
+
             handleSeenLeaderBoard(
-                data.currentLeaderboard[data.currentLeaderboard.length - 1],
+                // data.currentLeaderboard[data.currentLeaderboard.length - 1],
+                arangeLeader,
             );
-        } else {
-            console.log('Khong co');
         }
     }, [data]);
 
     const [addPlayerResult] = useAddPlayerResultMutation();
 
     useEffect(() => {
-        if (!addAnswer && !solo) {
-            answer.map((element) => {
-                if (element.time !== 0) {
-                    element.answered = true;
-                } else {
-                    element.answered = false;
-                }
-                element.points = scorePerQuestion[element.questionIndex - 1];
-            });
+        const handleAddResult = async () => {
+            if (!addAnswer && !solo) {
+                answer.map((element) => {
+                    if (element.time !== 0) {
+                        element.answered = true;
+                    } else {
+                        element.answered = false;
+                    }
+                    element.points =
+                        scorePerQuestion[element.questionIndex - 1];
+                });
 
-            const resultPlayer = {
-                score: pointSum,
-                answers: answer,
-            };
-            addPlayerResult({ playerId, gameId, results: resultPlayer });
-            setAddAnswers(true);
-        }
+                const resultPlayer = {
+                    score: pointSum,
+                    answers: answer,
+                };
+                const { data } = await addPlayerResult({
+                    playerId,
+                    gameId,
+                    results: resultPlayer,
+                });
+                if (data) {
+                    dispatch(upDated(data.user));
+                }
+                setAddAnswers(true);
+            }
+        };
+        handleAddResult();
     }, []);
 
     const dataChart = {
@@ -190,10 +214,16 @@ export default function ResultScreen({
                 </View>
 
                 {solo ? (
-                    <TouchableOpacity style={styles.footer} onPress={finish}>
+                    // <View style={{width:'100%'}}>
+                    <TouchableOpacity
+                        // style={styles.footer}
+                        style={styles.viewExitSolo}
+                        onPress={finish}
+                    >
                         <Text style={styles.textFooter}>Exit</Text>
                     </TouchableOpacity>
                 ) : (
+                    // </View>
                     <View
                         style={{
                             flexDirection: 'row',
@@ -304,6 +334,15 @@ const styles = StyleSheet.create({
 
     textInfoItemResult: {
         fontWeight: 800,
+    },
+
+    viewExitSolo: {
+        height: '7%',
+        backgroundColor: '#695AE0',
+        width: '80%',
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
     footer: {

@@ -36,18 +36,20 @@ let timeCurrent;
 import { fetchTeacherQuizes } from 'src/slices/quizSlice';
 // import ToastManager, { Toast } from 'toastify-react-native';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { PlatformColor } from 'react-native';
+import { defaultAvatar } from 'src/assets/images/defaultAvatar.png';
 
 export default function Home({ navigation }) {
-    const SOCKET_URL = 'http://192.168.41.18:3001';
+    const SOCKET_URL = 'http://192.168.146.18:3001';
     const dispatch = useDispatch();
+    const focus = useIsFocused();
 
     const userData = useSelector((state) => state.auths?.authData);
-    const userName = userData?.data?.user?.userName;
-    const avatar = userData?.data?.user?.avatar;
+    const accessToken = userData?.data?.accessToken;
     const teacherId = userData?.data?.user?._id;
 
-    const accessToken = userData?.data?.accessToken;
+    const userInfo = useSelector((state) => state.auths?.user);
+    const userName = userInfo?.userName;
+    const avatar = userInfo?.avatar;
 
     useEffect(() => {
         if (userData) {
@@ -65,29 +67,28 @@ export default function Home({ navigation }) {
         teacherId,
     });
 
-    useFocusEffect(
-        useCallback(() => {
-            const today = new Date();
-            const hour = today.getHours();
-            timeCurrent = `GOOD ${
-                (hour < 12 && hour > 5 && 'MORNING') ||
-                (hour < 17 && hour > 12 && 'AFTERNOON') ||
-                'EVENING'
-            } `;
+    useEffect(() => {
+        const today = new Date();
+        const hour = today.getHours();
+        timeCurrent = `GOOD ${
+            (hour < 12 && hour > 5 && 'MORNING') ||
+            (hour < 17 && hour > 12 && 'AFTERNOON') ||
+            'EVENING'
+        } `;
 
-            nameIcontime = `${
-                (hour < 12 && 'weather-sunny') ||
-                (hour < 17 && 'weather-cloud') ||
-                'weather-night'
-            } `;
-            nameIcontime =
-                hour < 12 && hour > 5
-                    ? 'weather-sunny'
-                    : hour < 17 && hour > 12
-                    ? 'weather-cloudy'
-                    : 'weather-night';
-        }, []),
-    );
+        nameIcontime = `${
+            (hour < 12 && 'weather-sunny') ||
+            (hour < 17 && 'weather-cloud') ||
+            'weather-night'
+        } `;
+        nameIcontime =
+            hour < 12 && hour > 5
+                ? 'weather-sunny'
+                : hour < 17 && hour > 12
+                ? 'weather-cloudy'
+                : 'weather-night';
+    }, [focus]);
+
     useEffect(() => {
         if (data) {
             dispatch(fetchTeacherQuizes(data));
@@ -188,7 +189,7 @@ export default function Home({ navigation }) {
                             style={{
                                 ...styles.textTiltle,
                                 fontSize: 18,
-                                width: 250,
+                                width: '100%',
                                 color: 'white',
                                 textAlign: 'center',
                             }}

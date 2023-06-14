@@ -23,6 +23,15 @@ export const apiUser = createApi({
             }),
         }),
 
+        updateUser: builder.mutation({
+            query: ({ accessToken, userId, updateUser }) => ({
+                url: `api/users/${userId}`,
+                method: 'PATCH',
+                headers: { Authorization: `Bearer ${accessToken}` },
+                body: updateUser,
+            }),
+        }),
+
         addFriend: builder.mutation({
             query: ({ accessToken, myId, friendId }) => ({
                 url: `api/users/${myId}/addfriend/${friendId}`,
@@ -52,6 +61,7 @@ export const apiUser = createApi({
 export const {
     useGetAllUsersQuery,
     useGetUserQuery,
+    useUpdateUserMutation,
     useAddFriendMutation,
     useFollowMutation,
     useUnFollowMutation,

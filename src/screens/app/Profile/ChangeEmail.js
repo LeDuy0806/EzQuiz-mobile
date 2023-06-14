@@ -1,22 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
-import { useGenerateOtpMutation } from 'src/services/authApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { useChangeMailMutation } from 'src/services/authApi';
 import { EmailReset } from 'src/validate/auth/Resgister';
 
 import Button from 'src/components/auth/Button';
 import Header from 'src/components/auth/Header';
 import FormTextInput from 'src/components/auth/Input';
 
-export default function Reset({ navigation }) {
+export default function ChangeEmail({ navigation }) {
     const [mail, setEmail] = useState('');
     const [emailError, setEmailError] = useState(false);
     const [emailFormatError, setEmailFormaError] = useState(false);
     const [noClick, setNoClick] = useState(true);
 
-    const [generateOTP, { data, isError, error, isLoading }] =
-        useGenerateOtpMutation();
+    // const userData = useSelector((state) => state.auths?.user);
+    // const userName = userData?.data?.user?.userName;
+    // const userEmail = userData?.data?.user?.mail;
+
+    const userData = useSelector((state) => state.auths?.user);
+    const userEmail = userData?.mail;
+    const userName = userData?.useName;
+
+    const [generateOTPMail, { data, isError, error, isLoading }] =
+        useChangeMailMutation();
 
     useEffect(() => {
         if (!mail) {
@@ -29,17 +37,17 @@ export default function Reset({ navigation }) {
     useEffect(() => {
         if (data) {
             const infoEmail = {
-                text: `Your OTP is ${data.code}. Verify and change your email`,
+                text: `Your Password Recovery OTP is ${data.code}. Verify and recover your password`,
                 userName: data.userName,
                 userEmail: mail,
-                subject: 'Email Recovery OTP',
+                subject: 'Password Recovery OTP',
             };
-            navigation.navigate('SendOTP', infoEmail);
+            navigation.navigate('SendEmailOTP', { infoEmail, userEmail });
         }
         if (isError) {
-            const errorText = error?.data?.message;
+            const errorText = error?.data;
             switch (errorText) {
-                case 'email does not exists':
+                case 'Email have exist':
                     setEmailError(true);
                     setEmailFormaError(false);
                     break;
@@ -57,8 +65,8 @@ export default function Reset({ navigation }) {
     };
 
     const handleReset = () => {
-        if (!noClick) {
-            generateOTP(mail);
+        if (!noClick && !emailFormatError) {
+            generateOTPMail({ mail, userName });
         }
     };
 
@@ -66,15 +74,15 @@ export default function Reset({ navigation }) {
         <SafeAreaView style={styles.safeAreaView}>
             <View style={styles.viewContainer}>
                 <Header
-                    title="Reset Password"
-                    direct="Login"
+                    title="Change Email"
+                    direct="Settings"
                     navigation={navigation}
                 />
 
                 <View style={styles.viewTextInput}>
                     <Text style={{ fontSize: 16 }}>
-                        Enter your email and we will send you a link to reset
-                        your password.
+                        Enter your email and we will send you a link to change
+                        your email.
                     </Text>
                 </View>
 
@@ -92,7 +100,9 @@ export default function Reset({ navigation }) {
                     handleChange={(e) => handleChange(e, 'mail')}
                 />
                 {emailError && (
-                    <Text style={{ color: 'red' }}>Email doesn' not exist</Text>
+                    <Text style={{ color: 'red' }}>
+                        Email have already exists
+                    </Text>
                 )}
 
                 {emailFormatError && (
@@ -102,7 +112,7 @@ export default function Reset({ navigation }) {
                 )}
 
                 <Button
-                    title="Reset Password"
+                    title="Change Email"
                     // direct={'Newpass'}
                     onPress={handleReset}
                     navigation={navigation}

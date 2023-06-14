@@ -319,7 +319,8 @@ export default function Register({ navigation }) {
                                     Wrong confirmPassword
                                 </Text>
                             )}
-
+                        </View>
+                        <View style={{ marginTop: 30, width: '100%' }}>
                             <Button
                                 title={'Register'}
                                 onPress={handleRegister}

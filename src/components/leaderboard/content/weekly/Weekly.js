@@ -5,12 +5,13 @@ import { View } from 'react-native';
 import styles from './weekly.style';
 import UserCard from '../../common/usercard/UserCard';
 
-const Weekly = ({ data }) => {
+const Weekly = ({ leaderBoard }) => {
     return (
         <View style={styles.container}>
-            {data?.map((item) => (
-                <UserCard key={item.rank} user={item} />
-            ))}
+            {leaderBoard &&
+                leaderBoard?.map((user, index) => (
+                    <UserCard key={index} index={index} user={user} />
+                ))}
         </View>
     );
 };

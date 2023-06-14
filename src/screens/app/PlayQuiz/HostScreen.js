@@ -105,12 +105,17 @@ export default function HostScreen({ navigation }) {
             leaderboardId: id,
             update: data,
         });
-
-        setQuestionResult(
+        let arrangeQuestion =
             questionleaderboard.data.questionLeaderboard[
                 data.questionIndex - 1
-            ],
-        );
+            ];
+        if (arrangeQuestion > 1) {
+            arrangeQuestion.sort(function (a, b) {
+                return b.playerPoints - a.playerPoints;
+            });
+        }
+
+        setQuestionResult(arrangeQuestion);
 
         let leaderboardData = {
             questionIndex: data.questionIndex,
@@ -121,10 +126,16 @@ export default function HostScreen({ navigation }) {
             leaderboardId: id,
             update: leaderboardData,
         });
+        let arrangeLeader =
+            currentleaderboard.data.currentLeaderboard[data.questionIndex - 1];
 
-        setCurrentLeaderboard(
-            currentleaderboard.data.currentLeaderboard[data.questionIndex - 1],
-        );
+        if (arrangeLeader.length > 1) {
+            arrangeLeader.sort(function (a, b) {
+                return b.playerCurrentScore - a.playerCurrentScore;
+            });
+        }
+
+        setCurrentLeaderboard(arrangeLeader);
     };
 
     const handlePlayerJoin = (playerData) => {

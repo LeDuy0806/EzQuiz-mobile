@@ -10,7 +10,7 @@ import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 export default function Item({ navigation, ...props }) {
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={props.onPress}>
             <View style={styles.viewItem}>
                 <View style={styles.viewIcon}>{props.icon}</View>
 
@@ -21,7 +21,7 @@ export default function Item({ navigation, ...props }) {
                     <Text style={{ color: 'gray' }}>{props.text}</Text>
                 </View>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={props.onPress}>
                     <View style={styles.viewlastIcon}>
                         <AntDesign name="right" size={20} color="black" />
                     </View>

@@ -29,6 +29,7 @@ export default function Onboard({ navigation }) {
                         <Button
                             title={'SignUp'}
                             onPress={() => navigation.navigate('Register')}
+                            onboard={true}
                             navigation={navigation}
                         />
                         <View style={{ flexDirection: 'row' }}>

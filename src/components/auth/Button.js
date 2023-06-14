@@ -4,11 +4,21 @@ import { ActivityIndicator } from 'react-native';
 
 export default function Button({ navigation, ...props }) {
     return (
-        <TouchableOpacity onPress={props.onPress}>
+        <TouchableOpacity
+            onPress={props.onPress}
+            style={{
+                width: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}
+        >
             <View
                 style={[
                     styles.viewButon,
-                    { backgroundColor: props.click ? 'gray' : '#865DFF' },
+                    {
+                        backgroundColor: props.click ? 'gray' : '#865DFF',
+                        width: props.onboard ? '90%' : '96%',
+                    },
                 ]}
             >
                 {props.loading ? (
@@ -31,9 +41,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     viewButon: {
-        width: 310,
+        width: '90%',
         height: 50,
-
         borderRadius: 20,
         justifyContent: 'center',
     },

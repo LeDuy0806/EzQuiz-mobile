@@ -19,8 +19,9 @@ import golebadge from 'src/assets/images/goldbadge.png';
 import study from 'src/assets/images/study.png';
 
 const DisplayDiscover = () => {
-    const userData = useSelector((state) => state.auths?.authData);
-    const point = userData?.data?.user?.point;
+    const userInfo = useSelector((state) => state.auths?.user);
+    const point = userInfo?.point;
+
     return (
         <View
             style={{ width: '100%', height: '100%' }}
@@ -57,7 +58,7 @@ const DisplayDiscover = () => {
                                     color="#660012"
                                 />
                                 <Text style={styles.textSub}>
-                                    Music . 5 Quizzes
+                                    Math . 13 Quizzes
                                 </Text>
                             </View>
                         </View>
@@ -120,6 +121,7 @@ const DisplayDiscover = () => {
                         <View style={styles.categoryContain}>
                             {categories.map((category) => (
                                 <CategoryCard
+                                    noPress={true}
                                     width="46%"
                                     key={category.name}
                                     category={category}

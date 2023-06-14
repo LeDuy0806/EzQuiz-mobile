@@ -14,7 +14,7 @@ import { CommonActions } from '@react-navigation/native';
 import Header from 'src/components/auth/Header';
 import Item from 'src/components/auth/Item';
 import { logOut } from 'src/slices/authSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -22,14 +22,39 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Switch } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 export default function Settings({ navigation }) {
     const dispatch = useDispatch();
 
+    const userData = useSelector((state) => state.auths?.user);
+    const mail = userData?.mail;
+
+    // const notiySuccessChangPassWord = () => {
+    //     Toast.show({
+    //         type: 'success',
+    //         text1: 'Change PassWord',
+    //         text2: 'Successffully !',
+    //         visibilityTime: 2500,
+    //         topOffset: 60,
+    //     });
+    // };
+
     const logout = () => {
         dispatch(logOut());
-        navigation.goBack();
+        navigation.navigate('Home');
         navigation.navigate('AuthNavigator');
+    };
+
+    const handlePassWord = () => {
+        navigation.navigate('ChangePass', mail);
+    };
+
+    const handleChangeEmail = () => {
+        navigation.navigate('ChangeEmail');
+    };
+
+    const EditProfile = () => {
+        navigation.navigate('EditProfile');
     };
 
     return (
@@ -56,6 +81,7 @@ export default function Settings({ navigation }) {
                             }
                             title="Update Profile"
                             text="Update username,country,etc"
+                            onPress={EditProfile}
                         />
 
                         <Item
@@ -67,7 +93,8 @@ export default function Settings({ navigation }) {
                                 />
                             }
                             title="Change Email Address"
-                            text="binbin18092003@gmail.com"
+                            text={mail}
+                            onPress={handleChangeEmail}
                         />
                         <Item
                             icon={
@@ -79,6 +106,7 @@ export default function Settings({ navigation }) {
                             }
                             title="Change Password"
                             text="Last change 1 year ago"
+                            onPress={handlePassWord}
                         />
                     </View>
 
@@ -127,6 +155,7 @@ export default function Settings({ navigation }) {
                         </View>
                     </TouchableOpacity>
                 </View>
+                <Toast />
             </ScrollView>
         </SafeAreaView>
     );

@@ -25,9 +25,10 @@ const Podium = ({ firstUser, secondUser, thirdUser }) => {
             >
                 {secondUser ? (
                     <UserBox
-                        avatar={secondUser.avatarUrl}
-                        name={secondUser.name}
-                        score={secondUser.score}
+                        avatar={secondUser.avatar}
+                        name={secondUser.userName}
+                        score={secondUser.point}
+                        isSecondUser={true}
                     />
                 ) : null}
 
@@ -46,9 +47,9 @@ const Podium = ({ firstUser, secondUser, thirdUser }) => {
             >
                 {firstUser ? (
                     <UserBox
-                        avatar={firstUser.avatarUrl}
-                        name={firstUser.name}
-                        score={firstUser.score}
+                        avatar={firstUser.avatar}
+                        name={firstUser.userName}
+                        score={firstUser.point}
                         isFirstUser={true}
                     />
                 ) : null}
@@ -68,9 +69,10 @@ const Podium = ({ firstUser, secondUser, thirdUser }) => {
             >
                 {thirdUser ? (
                     <UserBox
-                        avatar={thirdUser.avatarUrl}
-                        name={thirdUser.name}
-                        score={thirdUser.score}
+                        avatar={thirdUser.avatar}
+                        name={thirdUser.userName}
+                        score={thirdUser.point}
+                        isThirdUser={true}
                     />
                 ) : null}
 

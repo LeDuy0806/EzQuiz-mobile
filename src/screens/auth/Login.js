@@ -101,7 +101,7 @@ export default function Login({ navigation }) {
     return (
         <SafeAreaView style={styles.safeAreaView}>
             <ScrollView
-                style={{ width: '90%' }}
+                style={{ width: '92%' }}
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.viewAll}>

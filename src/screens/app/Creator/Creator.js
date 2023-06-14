@@ -191,7 +191,7 @@ export default Creator = ({ navigation, ...props }) => {
                 accessToken,
                 quizData: {
                     ...quizData,
-                    backgroundImage: file,
+                    backgroundImage: file ? file : quizData.backgroundImage,
                     creatorName: userName,
                 },
             });

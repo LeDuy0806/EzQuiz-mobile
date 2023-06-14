@@ -7,24 +7,35 @@ import {
     ScrollView,
     StyleSheet,
     Image,
+    Dimensions,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import { StackActions, NavigationActions } from 'react-navigation';
 
+import { useSelector } from 'react-redux';
 import SubLayout from 'src/layouts/SubLayout';
+import { BarChart } from 'react-native-chart-kit';
 
 import { colors } from 'src/styles/color';
 import ProfileNavigator from 'src/navigation/ProfileNavigator';
 
+import { PieChartCompo, BarChartCompo } from 'src/components/PieChart';
+
 export default function Profile({ navigation }) {
-    console.log('AA');
+    const userInfo = useSelector((state) => state.auths?.user);
+    const userName = userInfo?.userName;
+    const avatar = userInfo?.avatar;
+    const point = userInfo?.point;
+    const follow = userInfo?.follow;
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView
                 style={{ width: '100%' }}
                 contentContainerStyle={{ flexGrow: 1 }}
+                showsVerticalScrollIndicator={false}
             >
                 {/* Header */}
                 <View style={styles.header}>
@@ -43,16 +54,6 @@ export default function Profile({ navigation }) {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
-                            // navigation.dispatch(StackActions.popToTop());
-                            // const resetAction = StackActions.reset({
-                            //     index: 0,
-                            //     actions: [
-                            //         NavigationActions.navigate({
-                            //             routeName: 'Home',
-                            //         }),
-                            //     ],
-                            // });
-                            // this.props.navigation.dispatch(resetAction);
                             navigation.navigate('Settings');
                         }}
                     >
@@ -65,14 +66,16 @@ export default function Profile({ navigation }) {
                 </View>
                 {/* Main */}
                 <View style={styles.mainSection}>
-                    <TouchableOpacity style={{ zIndex: 1 }}>
+                    <View style={{ zIndex: 1 }}>
                         <Image
                             style={styles.image}
                             source={{
-                                uri: 'https://i0.wp.com/thatnhucuocsong.com.vn/wp-content/uploads/2023/02/Hinh-anh-avatar-cute.jpg?ssl\u003d1',
+                                uri: avatar
+                                    ? avatar
+                                    : 'https://i0.wp.com/thatnhucuocsong.com.vn/wp-content/uploads/2023/02/Hinh-anh-avatar-cute.jpg?ssl\u003d1',
                             }}
                         />
-                    </TouchableOpacity>
+                    </View>
                     <View style={styles.displayContent}>
                         <SubLayout>
                             <View
@@ -85,7 +88,7 @@ export default function Profile({ navigation }) {
                             >
                                 {/* Name */}
                                 <Text style={styles.textHeader}>
-                                    Madelyn Dias
+                                    {userName}
                                 </Text>
                                 {/* achievement */}
                                 <View style={styles.achieveBox}>
@@ -96,7 +99,9 @@ export default function Profile({ navigation }) {
                                             color="white"
                                         />
                                         <Text style={styles.title}>POINTS</Text>
-                                        <Text style={styles.score}>1500</Text>
+                                        <Text style={styles.score}>
+                                            {point && point}
+                                        </Text>
                                     </View>
                                     <View style={styles.box}>
                                         <Fontisto
@@ -116,20 +121,28 @@ export default function Profile({ navigation }) {
                                             color="white"
                                         />
                                         <Text style={styles.title}>
-                                            Friends
+                                            Following
                                         </Text>
-                                        <Text style={styles.score}>10</Text>
+                                        <Text style={styles.score}>
+                                            {follow && follow.length}
+                                        </Text>
                                     </View>
                                 </View>
 
                                 {/* navigation */}
-                                <View
+                                {/* <View
                                     style={{
                                         width: '100%',
                                         flexGrow: 1,
                                     }}
                                 >
                                     <ProfileNavigator />
+                                </View> */}
+                                <View style={{ marginTop: 40 }}>
+                                    <BarChartCompo />
+                                </View>
+                                <View style={{ marginTop: 40 }}>
+                                    <PieChartCompo />
                                 </View>
                             </View>
                         </SubLayout>

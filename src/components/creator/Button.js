@@ -36,11 +36,13 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: 14,
+        // height: '36%',
         borderRadius: 20,
+        paddingHorizontal: 20,
+        paddingVertical: 20,
     },
     text: {
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: '600',
     },
 });

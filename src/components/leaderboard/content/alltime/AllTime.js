@@ -6,18 +6,18 @@ import styles from './alltime.style';
 import Podium from '../../common/podium/Podium';
 import UserCard from '../../common/usercard/UserCard';
 
-const AllTime = ({ data }) => {
+const AllTime = ({ leaderBoard }) => {
     return (
         <View style={styles.container}>
             <Podium
-                firstUser={data[0]}
-                secondUser={data[1]}
-                thirdUser={data[2]}
+                firstUser={leaderBoard[0]}
+                secondUser={leaderBoard[1]}
+                thirdUser={leaderBoard[2]}
             />
 
             <View style={styles.userCardContainer}>
-                {data?.slice(3)?.map((item) => (
-                    <UserCard user={item} key={item.rank} />
+                {leaderBoard?.slice(3)?.map((user, index) => (
+                    <UserCard key={index} index={index + 3} user={user} />
                 ))}
             </View>
         </View>

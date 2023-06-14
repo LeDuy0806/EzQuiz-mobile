@@ -60,12 +60,10 @@ export default function FormTextInput(props) {
 
 const styles = StyleSheet.create({
     formItem: {
-        // width: '100%',
         flexDirection: 'column',
         gap: 10,
     },
     viewItem: {
-        // width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
