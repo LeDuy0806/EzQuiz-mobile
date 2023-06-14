@@ -111,6 +111,7 @@ export default function PlayerScreen({ navigation, ...props }) {
             const answerQuestion = questionData.answerCorrect;
 
             let wrong = false;
+            //Handle Answer player
             if (answerPlayer.length === answerQuestion.length) {
                 answerPlayer.map((item) => {
                     if (!answerQuestion.includes(item)) {

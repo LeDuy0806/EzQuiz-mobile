@@ -40,7 +40,7 @@ import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { defaultAvatar } from 'src/assets/images/defaultAvatar.png';
 
 export default function Home({ navigation }) {
-    const SOCKET_URL = 'http://192.168.146.18:3001';
+    const SOCKET_URL = 'http://192.168.179.18:3001';
     const dispatch = useDispatch();
     const focus = useIsFocused();
 

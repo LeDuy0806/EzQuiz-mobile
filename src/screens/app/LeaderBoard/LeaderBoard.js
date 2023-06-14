@@ -30,7 +30,6 @@ import {
 import { colors } from 'src/styles/color';
 import { userLeaderboard } from 'src/constants/userLeaderboard.constant';
 import { API } from 'src/constants/api';
-import { fetchAllUsers } from 'src/slices/usersSlice';
 // 2 button Tab thời gian
 const durationTabs = ['Weekly', 'All Time'];
 
@@ -75,22 +74,6 @@ export default function LeaderBoard({ navigation }) {
                 break;
         }
     };
-
-    useEffect(() => {
-        fetch(`${API}api/users`, {
-            method: 'GET',
-            headers: new Headers({
-                Authorization: `Bearer ${accessToken}`,
-                'user-agent': 'Mozilla/4.0 MDN Example',
-                'content-type': 'application/json',
-            }),
-        })
-            .then((data) => data.json())
-            .then((json) => {
-                dispatch(fetchAllUsers(json));
-            })
-            .catch((error) => console(error));
-    }, []);
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);

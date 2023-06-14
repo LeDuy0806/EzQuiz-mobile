@@ -232,7 +232,6 @@ export default function Login({ navigation }) {
                         <TouchableOpacity onPress={showConfirmDialog}>
                             <View style={styles.viewLoginwithGG}>
                                 <Image source={google} />
-
                                 <Text style={styles.textGG}>
                                     Login with Google
                                 </Text>

@@ -1,5 +1,8 @@
 // Library
-import { configureStore } from '@reduxjs/toolkit';
+import {
+    configureStore,
+    createImmutableStateInvariantMiddleware,
+} from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 
 //api
@@ -21,6 +24,10 @@ import gameReducer from './slices/gamesSlice';
 import leaderboardReducer from './slices/leaderboardSlice';
 import playeResultReducer from './slices/playerResultSlice';
 import { users } from './constants/user.constant';
+
+const immutableInvariantMiddleware = createImmutableStateInvariantMiddleware({
+    ignoredPaths: ['ignoredPath', 'ignoredNested.one', 'ignoredNested.two'],
+});
 
 const store = configureStore({
     reducer: {

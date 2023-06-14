@@ -12,7 +12,7 @@ import {
 
 import { colors } from 'src/styles/color';
 import logo from 'src/assets/images/logo.png';
-
+import images from 'src/constants/images';
 export default function WaitingRoom({
     pin,
     solo,
@@ -29,6 +29,7 @@ export default function WaitingRoom({
         socket?.on('player-added', (player, pinGameCurrent) => {
             if (pin === pinGameCurrent) {
                 handlePlayerJoin(player);
+                // Add player
                 setPlayerList([...playerList, player]);
             }
         });
@@ -69,9 +70,9 @@ export default function WaitingRoom({
                             <Image
                                 style={styles.viewImage}
                                 source={{
-                                    uri: quizData?.backgroundImage
+                                    uri: quizData.backgroundImage
                                         ? quizData?.backgroundImage
-                                        : 'https://us.123rf.com/450wm/sn333g/sn333g1608/sn333g160800029/65791205-math-round-bright-symbol-vector-colorful-mathematics-school-subject-bright-sign-in-thin-line-style.jpg?ver=6',
+                                        : images.defaultAvatar,
                                 }}
                             />
                             <Text style={{ textAlign: 'center' }}>
@@ -149,7 +150,9 @@ export const UserJoin = ({ index }) => {
                 <Image
                     style={styles.imageUser}
                     source={{
-                        uri: index.avatar,
+                        uri: index.avatar
+                            ? index.avatar
+                            : 'https://i0.wp.com/thatnhucuocsong.com.vn/wp-content/uploads/2023/02/Hinh-anh-avatar-cute.jpg?ssl\u003d1',
                     }}
                 />
                 <View>
